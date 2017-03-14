@@ -1,0 +1,195 @@
+@using System
+@model EBilling.Models.ebill.EbillSummaryFileModel
+<html>
+<head>
+    <title>
+    </title>
+    <meta name="generator" content="HTML Tidy for Windows (vers 14 February 2006), see www.w3.org"/>
+    <meta charset="utf-8"/>
+    <style>
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            /*border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, .15);*/
+            font-size: 16px;
+            line-height: 24px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+        }
+
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+        }
+
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+        }
+        .invoice-box .invoice-title {font-size: 24px; font-weight:bold; text-align:center;}
+
+        .invoice-box table tr td:nth-child(2) { text-align: right; min-width: 300px;  }
+
+        .invoice-box table tr.top table td { padding-bottom: 20px; }
+
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 45px;
+            color: #333;
+        }
+
+        .invoice-box table tr.information table td { padding-bottom: 40px; }
+
+        .invoice-box table tr.note td { padding-top: 20px; padding-bottom: 20px;}
+
+        .invoice-box table tr.footnote td { padding-top: 40px; padding-bottom: 20px;}
+
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        .invoice-box table tr.details td { padding-bottom: 20px; }
+
+        .invoice-box table tr.item td { border-bottom: 1px solid #eee; }
+
+        .invoice-box table tr.item.last td { border-bottom: none; }
+
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding:0">
+<div class="invoice-box">
+    @*<div class="invoice-title">Invoice</div>*@
+    <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td class="title">
+                            Invoice
+                        </td>
+
+                        <td>
+                            <img src="Zen_Logo.gif" style="width: 150px;">
+                            <br/>Zen Internet Ltd.<br/>
+                            <strong>Vat reg. no:</strong> 686 0495 01<br/>
+                            <strong>Email:</strong> customerbilling@zen.co.uk
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="information">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td>
+                            @Model.CustomerName<br/>
+                            @Model.CustomerAddressLine1
+                            @if (!String.IsNullOrEmpty(Model.CustomerAddressTown))
+                            {
+                                <br/>@Model.CustomerAddressTown
+                            }
+                            @if (!String.IsNullOrEmpty(Model.CustomerAddressCounty))
+                            {
+                                <br/>@Model.CustomerAddressCounty
+                            }
+                            @if (!String.IsNullOrEmpty(Model.CustomerAddressPostCode))
+                            {
+                                <br/>@Model.CustomerAddressPostCode
+                            }
+                        </td>
+
+                        <td>
+                            <strong>Invoice #: </strong>@Model.InvoiceId<br/>
+                            <strong>Invoice/Tax date: </strong>@Model.InvoiceDate<br />
+                            <strong>Due date: </strong>@Model.DueDate<br />
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="heading">
+            <td>
+                Invoice Summary Bill Run
+            </td>
+
+            <td>
+
+            </td>
+        </tr>
+        <tr class="item">
+            <td>
+               @Model.Description
+            </td>
+
+            <td>
+
+            </td>
+        </tr>
+        <tr class="heading">
+            <td>
+                Subtotals
+            </td>
+
+            <td></td>
+        </tr>
+        @foreach (var dl in @Model.VATBreakdownList)
+        {
+            <tr class="details">
+                <td>
+                    @dl[0]
+                </td>
+
+                <td>
+                    @dl[1]
+                </td>
+            </tr>
+        }
+
+
+
+        <tr class="total">
+            <td></td>
+
+            <td>
+                Total ex. Vat: @Model.TotalExcVat
+            </td>
+        </tr>
+        <tr class="total">
+            <td></td>
+
+            <td>
+                Total Vat: @Model.TotalVat
+            </td>
+        </tr>
+        <tr class="total">
+            <td></td>
+
+            <td>
+                Total: @Model.TotalIncVat
+            </td>
+        </tr>
+        <tr class="note">
+            <td colspan="2">@Model.ReverseVatCharge</td>
+        </tr>
+        <tr class="footnote">
+            <td colspan="2">You can pay this invoice online at <a href="http://www.zen.co.uk/pay-invoice">www.zen.co.uk/pay-invoice</a> using authorisation codeYou can now pay by Direct Debit and access your bills using our Customer Portal.Zen Talk customers can also access their fully itemised bills online.Visit <a href="https://portal.zen.co.uk">portal.zen.co.uk</a> Zen Internet is a member of the CISAS Alternative Dispute Resolution scheme, which is a free and independent service whichconsumers and small businesses with 10 or fewer employees can use to settle disputes with us. The service can be accessedeight weeks after a complaint is first made by you, or earlier if we issue a deadlock letter.Please see <a href="http://www.zen.co.uk/complaints-procedure/">www.zen.co.uk/complaints-procedure/</a> for more details.</td>
+        </tr>
+    </table>
+</div>
+
+
+</body>
+</html>
